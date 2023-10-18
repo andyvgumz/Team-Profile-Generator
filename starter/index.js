@@ -21,7 +21,7 @@ function buildTeam() {
       fs.mkdirSync(OUTPUT_DIR)      
     }
     fs.writeFileSync(outputPath, render(teamMembers), 'utf8');
-}
+}}
 
   function addIntern() {
     inquirer.prompt([
@@ -53,22 +53,20 @@ function buildTeam() {
     idList.push(answers.internId);
     // console.log(intern);
     createTeam()
-
-  }
+  })
+}
 
   function addEngineer() {
     //prompt for engineer info
     inquirer.prompt([
     {type: "input",
         name: "engineerName",
-        message: "What is the name of your engineer?"     
-    
+        message: "What is the name of your engineer?"    
     },  
 
     {type: "input",
     name: "engineerId",
-    message: "What is the engineer id?"     
-
+    message: "What is the engineer id?"   
 },  
 
 {type: "input",
@@ -88,9 +86,6 @@ message: "What is the engineer github?"
   // console.log(engineer);
   createTeam()
 })
-
-
-})  
 
   function createTeam() {
     inquirer.prompt([
@@ -159,7 +154,9 @@ message: "What is the engineer github?"
   }  
   createManager();
 
+
+
 }
 
 appMenu();
-}
+
