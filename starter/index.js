@@ -15,99 +15,122 @@ const idList = [];
 const teamMembers = [];
 
 const appMenu = () => {
-function buildTeam() { 
+  function buildTeam() {
     // console.log('You have already created a team');
     if (!fs.existsSync(OUTPUT_DIR)) {
-      fs.mkdirSync(OUTPUT_DIR)      
+      fs.mkdirSync(OUTPUT_DIR);
     }
-    fs.writeFileSync(outputPath, render(teamMembers), 'utf8');
-}
+    fs.writeFileSync(outputPath, render(teamMembers), "utf8");
+  }
 
   function addIntern() {
-    inquirer.prompt([
-      {type: "input",
+    inquirer
+      .prompt([
+        {
+          type: "input",
           name: "internName",
-          message: "What is the name of your intern?"     
-      
-      },  
-  
-      {type: "input",
-      name: "internId",
-      message: "What is the intern id?"  
-  
-  },  
-  
-  {type: "input",
-  name: "internEmail",
-  message: "What is the intern email?"     
-  }, 
-  
-  {type: "input",
-  name: "internGithub",
-  message: "What is the intern github?" 
-  }  
+          message: "What is the name of your intern?",
+        },
 
-  ]).then(answers => {
-    const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internGithub);
-    teamMembers.push(intern);
-    idList.push(answers.internId);
-    // console.log(intern);
-    createTeam()
-  })
-};
+        { type: "input", name: "internId", message: "What is the intern id?" },
+
+        {
+          type: "input",
+          name: "internEmail",
+          message: "What is the intern email?",
+        },
+
+        {
+          type: "input",
+          name: "internGithub",
+          message: "What is the intern github?",
+        },
+      ])
+      .then((answers) => {
+        const intern = new Intern(
+          answers.internName,
+          answers.internId,
+          answers.internEmail,
+          answers.internGithub
+        );
+        teamMembers.push(intern);
+        idList.push(answers.internId);
+        // console.log(intern);
+        createTeam();
+      });
+  }
 
   function addEngineer() {
     //prompt for engineer info
-    inquirer.prompt([
-    {type: "input",
-        name: "engineerName",
-        message: "What is the name of your engineer?"    
-    },  
+    inquirer
+      .prompt([
+        {
+          type: "input",
+          name: "engineerName",
+          message: "What is the name of your engineer?",
+        },
 
-    {type: "input",
-    name: "engineerId",
-    message: "What is the engineer id?"   
-},  
+        {
+          type: "input",
+          name: "engineerId",
+          message: "What is the engineer id?",
+        },
 
-{type: "input",
-name: "engineerEmail",
-message: "What is the engineer email?"
-}, 
+        {
+          type: "input",
+          name: "engineerEmail",
+          message: "What is the engineer email?",
+        },
 
-{type: "input",
-name: "engineerGithub",
-message: "What is the engineer github?" 
-}    
-]).then(answers => {
-  const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGithub);
-  teamMembers.push(engineer);
-  idList.push(answers.engineerId);
-  // console.log(engineer);
-  createTeam()
-})
-}; 
+        {
+          type: "input",
+          name: "engineerGithub",
+          message: "What is the engineer github?",
+        },
+      ])
+      .then((answers) => {
+        const engineer = new Engineer(
+          answers.engineerName,
+          answers.engineerId,
+          answers.engineerEmail,
+          answers.engineerGithub
+        );
+        teamMembers.push(engineer);
+        idList.push(answers.engineerId);
+        // console.log(engineer);
+        createTeam();
+      });
+  }
 
   function createTeam() {
-    inquirer.prompt([
-      {
-        type: "list",
-        name: "role",
-        message: "Select a role for your new employee.",
-        choices: ["Manager", "Engineer", "Intern", "I do not want to add anymore team members"],
-      }]).then(userChoice => {
-        if (userChoice.role === 'Manager') {
-          managerPrompts();
-          } else if (userChoice.role ==='Engineer') {
-            //add engineer function
-            engineerPrompts();
-            }  else if (userChoice.role==='Intern'){
-                //add intern function
-              internPrompts();
-              }else {
-                //build team function
-                renderHTML();
-                };
-      })
+    inquirer
+      .prompt([
+        {
+          type: "list",
+          name: "role",
+          message: "Select a role for your new employee.",
+          choices: [
+            "Manager",
+            "Engineer",
+            "Intern",
+            "I do not want to add anymore team members",
+          ],
+        },
+      ])
+      .then((userChoice) => {
+        if (userChoice.role === "Manager") {
+          createManager();
+        } else if (userChoice.role === "Engineer") {
+          //add engineer function
+          addEngineer();
+        } else if (userChoice.role === "Intern") {
+          //add intern function
+          addIntern();
+        } else {
+          //build team function
+          buildTeam();
+        }
+      });
   }
 
   //create HTML file with all employees and their info
@@ -124,7 +147,7 @@ message: "What is the engineer github?"
               return true;
             }
             return "Please enter at least one character.";
-          }
+          },
         },
         {
           type: "input",
@@ -143,18 +166,21 @@ message: "What is the engineer github?"
           name: "managerOfficeNumber",
           message: "what is the manager's office number.",
         },
-
-      ]).then(answers => {
-        const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOfficeNumber);
+      ])
+      .then((answers) => {
+        const manager = new Manager(
+          answers.managerName,
+          answers.managerId,
+          answers.managerEmail,
+          answers.managerOfficeNumber
+        );
         // console.log(manager);
-        teamMembers.push(manager);  //console.log(`The Manager ${answers.managername} has been added!`)
+        teamMembers.push(manager); //console.log(`The Manager ${answers.managername} has been added!`)
         idList.push(answers.managerId);
-        createTeam();       
-      });     
-  }  
+        createTeam();
+      });
+  }
   createManager();
-
-}
+};
 
 appMenu();
-
