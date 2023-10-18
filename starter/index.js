@@ -21,7 +21,7 @@ function buildTeam() {
       fs.mkdirSync(OUTPUT_DIR)      
     }
     fs.writeFileSync(outputPath, render(teamMembers), 'utf8');
-}}
+}
 
   function addIntern() {
     inquirer.prompt([
@@ -54,7 +54,7 @@ function buildTeam() {
     // console.log(intern);
     createTeam()
   })
-}
+};
 
   function addEngineer() {
     //prompt for engineer info
@@ -71,8 +71,7 @@ function buildTeam() {
 
 {type: "input",
 name: "engineerEmail",
-message: "What is the engineer email?"     
-
+message: "What is the engineer email?"
 }, 
 
 {type: "input",
@@ -86,6 +85,7 @@ message: "What is the engineer github?"
   // console.log(engineer);
   createTeam()
 })
+}; 
 
   function createTeam() {
     inquirer.prompt([
@@ -97,10 +97,10 @@ message: "What is the engineer github?"
       }]).then(userChoice => {
         if (userChoice.role === 'Manager') {
           managerPrompts();
-          } else if (userChoice.role ==="Engineer") {
+          } else if (userChoice.role ==='Engineer') {
             //add engineer function
             engineerPrompts();
-            }  else if (userChoice.role==="Intern"){
+            }  else if (userChoice.role==='Intern'){
                 //add intern function
               internPrompts();
               }else {
@@ -153,8 +153,6 @@ message: "What is the engineer github?"
       });     
   }  
   createManager();
-
-
 
 }
 
